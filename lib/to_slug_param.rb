@@ -6,7 +6,7 @@ require 'to_slug_param/symbol'
 module ToSlugParam
   class Engine < Rails::Engine; end
 
-  SPECIAL_SYMBOLS = %[`'"<>[]{}()-+?!/\\.:;$*^~_]
+  SPECIAL_SYMBOLS = %[`'"<>[]{}()-+?!/\\.:;|#\$@&*^%=~_]
 
   REPLACE_SPEC_SYMB_REGEXP = Regexp.new(
     SPECIAL_SYMBOLS.split('').map do |s|
@@ -22,9 +22,11 @@ module ToSlugParam
     end
 
     def remove_sep_duplications str, sep
-      str.gsub(/\A#{sep}{1,}/, '')
-         .gsub(/#{sep}{2,}/, sep)
-         .gsub(/#{sep}{1,}\z/, '').to_s
+      escaped_sep = Regexp.escape sep
+
+      str.gsub(/\A#{escaped_sep}{1,}/, '')
+         .gsub(/#{escaped_sep}{2,}/, sep)
+         .gsub(/#{escaped_sep}{1,}\z/, '').to_s
     end
 
     def rails_to_param(str, sep)

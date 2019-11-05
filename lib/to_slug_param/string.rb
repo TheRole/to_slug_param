@@ -49,7 +49,6 @@ class String
     def to_smart_slug_param str, opts = {}
       opts = opts.symbolize_keys
       tolerance = opts[:tolerance] || 75
-
       str = prepare_the_string(str, opts)
 
       x = str.to_slug_param_base(opts)

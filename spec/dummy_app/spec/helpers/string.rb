@@ -282,38 +282,55 @@ describe 'StringToSlug' do
         expect("/доки/dir/тест/доку мент".slugged_filename(sep: '_')).to eq("doku_mient")
       end
     end
-  end
 
-  context "spec chars" do
-    it "should works" do
-      expect("[$&+,:;=?@Hello world!#|'<>.^*()%!-]".to_slug_param).to eq('hello-world')
-    end
+    context "spec chars" do
+      it 'is true' do
+        expect(
+          "[$&+,:;=?@Hello <>[]{}()-+?!/\\.:;|#\$@&*^%=~_ world!#|'<>.^*()%!-]".to_slug_param
+        ).to eq('hello-world')
+      end
 
-    it "should works" do
-      expect("教師 — the-teacher".to_slug_param).to eq('the-teacher')
-      expect("Hello ^, I'm here!".to_slug_param).to eq('hello-i-m-here')
-    end
+      it 'is true' do
+        expect("教師 — the-teacher".to_slug_param(tolerance: 20)).to eq('the-teacher')
+      end
 
-    it "should works" do
-      expect("HELLO---WorlD".to_slug_param(sep: '_')).to eq('hello_world')
-    end
+      it 'is true' do
+        expect("Hello ^, I'm here!".to_slug_param).to eq('hello-i-m-here')
+      end
 
-    it "should works" do
-      str = "__...HELLO-___--+++--WorlD----__&&***...__.---"
+      it 'is true' do
+        expect("HELLO---WorlD".to_slug_param(sep: '_')).to eq('hello_world')
+      end
 
-      expect(str.to_slug_param).to eq('hello-world')
-      expect(str.to_slug_param(sep: '_')).to eq('hello_world')
-      expect(str.to_slug_param(sep: '+')).to eq('hello+world')
-    end
+      it 'is true' do
+        expect(
+          "__...HELLO-___--+++--WorlD----__&&***...__.---".to_slug_param
+        ).to eq('hello-world')
+      end
 
-    it "should works" do
-      str = "Ilya zykin aka   Killich, $$$ aka the-teacher"
-      expect(str.to_slug_param(sep: '+')).to eq("ilya+zykin+aka+killich+aka+the+teacher")
-    end
+      it 'is true' do
+        expect(
+          "__...HELLO-___--+++--WorlD----__&&***...__.---".to_slug_param(sep: '_')
+        ).to eq('hello_world')
+      end
 
-    it "should works" do
-      str = "Илья Николаевич, прекратите кодить по выходным!".to_sym
-      expect(str.to_slug_param).to eq("ilya-nikolaevich-prekratite-kodit-po-vyhodnym")
+      it 'is true' do
+        expect(
+          "__...HELLO-___--+++--WorlD----__&&***...__.---".to_slug_param(sep: '+')
+        ).to eq('hello+plus+world')
+      end
+
+      it 'is true' do
+        expect(
+          "Ilya zykin aka   Killich, $$$ aka the-teacher".to_slug_param(sep: '+')
+        ).to eq("ilya+plus+zykin+plus+aka+plus+killich+plus+aka+plus+the+plus+teacher")
+      end
+
+      it 'is true' do
+        expect(
+          "Илья Николаевич, прекратите кодить по выходным!".to_sym.to_slug_param
+        ).to eq("ilia-nikolaievich-priekratitie-kodit-po-vykhodnym")
+      end
     end
   end
 
