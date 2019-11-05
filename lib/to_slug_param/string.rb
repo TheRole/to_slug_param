@@ -49,10 +49,11 @@ class String
     def to_smart_slug_param str, opts = {}
       opts = opts.symbolize_keys
       tolerance = opts[:tolerance] || 75
+
       str = prepare_the_string(str, opts)
 
       x = str.to_slug_param_base(opts)
-      y = str.to_url
+      y = prepare_the_string(str.to_url, opts)
 
       ratio = (x.size.to_f/y.size.to_f)
 

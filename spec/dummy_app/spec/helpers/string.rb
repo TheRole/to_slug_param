@@ -254,16 +254,33 @@ describe 'StringToSlug' do
         expect(String.slugged_filepath("/доки/dir/тест/доку мент", locale: :en)).to eq("/доки/dir/тест/doku-mient")
       end
     end
-  end
 
-  context 'sep' do
-    it 'should be true' do
-      expect("Привет Мир! Hello world!".to_slug_param(sep: '_')).to eq("privet_mir_hello_world")
-      expect("Документ.doc".to_slug_param(sep: '_')).to eq("dokument_doc")
+    context 'sep' do
+      it 'is true' do
+        I18n.locale = :ru
+        expect("Привет Мир! Hello world!".to_slug_param(sep: '_')).to eq("privet_mir_hello_world")
+      end
 
-      expect("/доки/dir/тест/документ".slugged_filepath(sep: '_')).to      eq("/доки/dir/тест/dokument")
-      expect("/доки/dir/тест/доку мент".slugged_filepath(sep: '_')).to     eq("/доки/dir/тест/doku_ment")
-      expect("/доки/dir/тест/доку мент".slugged_filename(sep: '_')).to eq("doku_ment")
+      it 'is true' do
+        expect("Привет Мир! Hello world!".to_slug_param(sep: '_')).to eq("priviet_mir_hello_world")
+      end
+
+      it 'is true' do
+        expect("Документ.doc".to_slug_param(sep: '_')).to eq("dokumient_doc")
+      end
+
+      it 'is true' do
+        I18n.locale = :ru
+        expect("/доки/dir/тест/документ".slugged_filepath(sep: '_')).to eq("/доки/dir/тест/dokument")
+      end
+
+      it 'is true' do
+        expect("/доки/dir/тест/доку мент".slugged_filepath(sep: '_')).to eq("/доки/dir/тест/doku_mient")
+      end
+
+      it 'is true' do
+        expect("/доки/dir/тест/доку мент".slugged_filename(sep: '_')).to eq("doku_mient")
+      end
     end
   end
 
