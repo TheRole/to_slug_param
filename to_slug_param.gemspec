@@ -24,5 +24,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '>= 0', '< 14.0'
   spec.add_runtime_dependency 'rails-i18n', '>= 0', '< 7.0'
   spec.add_runtime_dependency 'rails', '>= 4.0.3', '< 7.0'
-  spec.add_runtime_dependency 'stringex', '2.7.1'
+  spec.add_runtime_dependency 'stringex', '2.8.5'
 end
