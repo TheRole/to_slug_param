@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.0'
+gem 'rails', '5.2.0'
 
-gem 'sqlite3'
+gem 'sqlite3', '~> 1.3', '< 1.4'
+gem 'pry'
 gem 'rspec'
 gem 'rspec-rails'
 gem 'to_slug_param', path: '../../'

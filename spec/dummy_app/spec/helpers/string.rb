@@ -2,6 +2,18 @@
 require 'spec_helper'
 
 describe 'StringToSlug' do
+  context 'Check `to_slug_param_base` method' do
+    it 'should be true' do
+      str = "Hello    world its me                 Привет Мир 際          "
+      str.to_slug_param_base.should eq "hello-world-its-me-privet-mir"
+    end
+
+    it 'should be true' do
+      str = "際   際 際 Hello    world its me           際      Привет Мир 際   "
+      str.to_slug_param_base.should eq "hello-world-its-me-privet-mir"
+    end
+  end
+
   context 'String tests with fallback' do
     it 'should be true' do
       str = "Hello world its me Привет Мир 際"

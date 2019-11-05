@@ -67,6 +67,15 @@ Params
 "Документ.doc".to_slug_param(sep: '_', locale: :en) # => "doc"
 ```
 
+#### HOW TO TEST
+
+For testing there is a [Dummy App](./spec/dummy_app).
+
+You can run specs for this Dymmy App and check if they pass.
+
+- cd **spec/dummy_app**
+- Follow **spec/dummy_app/README.md**
+
 ### MIT-LICENSE
 
 ##### Copyright (c) 2013-2014 [Ilya N.Zykin]
