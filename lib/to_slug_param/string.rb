@@ -31,20 +31,21 @@ class String
       sep = opts.delete(:sep) || '-'
       str = str.to_s.strip.gsub(/[[:space:]]/, sep)
       str = str.mb_chars
+ 
       str = I18n::transliterate(str, opts)
       str = ToSlugParam::basic_parameterize(str, sep)
-      str = ToSlugParam::parameterize(str, opts)
+      str = ToSlugParam::parameterize(str, sep)
 
       # remove separators from beginning and the end of the line
       # replace separators in the middle with the only match
       str.gsub(/\A#{sep}{1,}/, '')
          .gsub(/#{sep}{2,}/, sep)
-         .gsub(/#{sep}{1,}\z/, '')
+         .gsub(/#{sep}{1,}\z/, '').to_s
     end
 
     def to_smart_slug_param str, opts = {}
       tolerance = opts.delete(:tolerance) || 75
-      x = str.to_slug_param_base
+      x = str.to_slug_param_base(opts)
       y = str.to_url
 
       ratio = (x.size.to_f/y.size.to_f)
