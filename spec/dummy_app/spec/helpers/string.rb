@@ -209,26 +209,50 @@ describe 'StringToSlug' do
         expect(String.slugged_filename("/доки/dir/тест/доку мент", locale: :en)).to eq("doku-mient")
       end
     end
-  end
 
-  context 'Full path to file' do
-    it 'should be true' do
-      expect("/doc/dir/test/document.doc".slugged_filepath).to  eq("/doc/dir/test/document.doc")
-      expect("/доки/dir/тест/документ.doc".slugged_filepath).to eq("/доки/dir/тест/dokument.doc")
-      expect("/доки/dir/тест/документ".slugged_filepath).to     eq("/доки/dir/тест/dokument")
-      expect("/доки/dir/тест/доку мент".slugged_filepath).to    eq("/доки/dir/тест/doku-ment")
+    context 'Full path to file' do
+      it 'should be true' do
+        expect("/doc/dir/test/document.doc".slugged_filepath).to  eq("/doc/dir/test/document.doc")
+      end
 
-      expect(String.slugged_filepath("/доки/dir/тест/доку мент")).to eq("/доки/dir/тест/doku-ment")
-    end
+      it 'is true' do
+        I18n.locale = :ru
+        expect("/доки/dir/тест/документ.doc".slugged_filepath).to eq("/доки/dir/тест/dokument.doc")
+      end
 
-    it 'When wrong translation' do
-      expect("/doc/dir/test/document.doc".slugged_filepath(locale: :en)).to  eq("/doc/dir/test/document.doc")
-      expect("/доки/dir/тест/документ.doc".slugged_filepath(locale: :en)).to eq("/доки/dir/тест/.doc")
+      it 'is true' do
+        I18n.locale = :ru
+        expect("/доки/dir/тест/документ".slugged_filepath).to eq("/доки/dir/тест/dokument")
+      end
 
-      expect("/доки/dir/тест/документ".slugged_filepath(locale: :en)).to     eq("/доки/dir/тест/")
-      expect("/доки/dir/тест/доку мент".slugged_filepath(locale: :en)).to    eq("/доки/dir/тест/")
+      it 'is true' do
+        I18n.locale = :ru
+        expect("/доки/dir/тест/доку мент".slugged_filepath).to eq("/доки/dir/тест/doku-ment")
+      end
 
-      expect(String.slugged_filepath("/доки/dir/тест/доку мент", locale: :en)).to eq("/доки/dir/тест/")
+      it 'is true' do
+        expect(String.slugged_filepath("/доки/dir/тест/доку мент")).to eq("/доки/dir/тест/doku-mient")
+      end
+
+      it 'is true' do
+        expect("/doc/dir/test/document.doc".slugged_filepath(locale: :en)).to eq("/doc/dir/test/document.doc")
+      end
+
+      it 'is true' do
+        expect("/доки/dir/тест/документ.doc".slugged_filepath(locale: :ru)).to eq("/доки/dir/тест/dokument.doc")
+      end
+
+      it 'is true' do
+        expect("/доки/dir/тест/документ".slugged_filepath(locale: :en)).to eq("/доки/dir/тест/dokumient")
+      end
+
+      it 'is true' do
+        expect("/доки/dir/тест/доку мент".slugged_filepath(locale: :en)).to  eq("/доки/dir/тест/doku-mient")
+      end
+
+      it 'is true' do
+        expect(String.slugged_filepath("/доки/dir/тест/доку мент", locale: :en)).to eq("/доки/dir/тест/doku-mient")
+      end
     end
   end
 
