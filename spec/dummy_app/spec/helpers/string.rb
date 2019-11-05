@@ -76,40 +76,37 @@ describe 'StringToSlug' do
   end
 
   context 'Check `to_url` method' do
-    before(:each) { I18n.locale = :ru }
+    before(:each) { I18n.locale = :en }
     after(:all) { I18n.locale = :en }
 
     it 'should be true' do
+      I18n.locale = :ru
       str = "Hello    world its me                 Привет Мир 際          "
       expect(str.to_url).to eq("hello-world-its-me-priviet-mir-ji")
     end
 
     it 'should be true' do
+      I18n.locale = :ru
+      expect("Документ.doc".to_url).to eq("dokumient-tochka-doc")
+    end
+
+    it 'should be true' do
+      I18n.locale = :ru
       str = "際   際 際 Hello    world its me           際      Привет Мир 際   "
       expect(str.to_url).to eq("ji-ji-ji-hello-world-its-me-ji-priviet-mir-ji")
     end
 
     it 'should be true' do
-      str = "Документ.doc"
-      expect(str.to_url).to eq("dokumient-tochka-doc")
-    end
-
-    it 'should be true' do
-      I18n.locale = :en
-      str = "Документ.doc"
-      expect(str.to_url).to eq("dokumient-dot-doc")
+      expect("Документ.doc".to_url).to eq("dokumient-dot-doc")
     end
 
     it 'should be true' do
       I18n.locale = :ru
-      str = "hey_-.+_)(/\\Мир"
-      expect(str.to_url).to eq("hey-tochka-plius-sliesh-sliesh-mir")
+      expect("hey_-.+_)(/\\Мир".to_url).to eq("hey-tochka-plius-sliesh-sliesh-mir")
     end
 
     it 'should be true' do
-      I18n.locale = :en
-      str = "hey_-.+_)(/\\Мир"
-      expect(str.to_url).to eq("hey-dot-plus-slash-slash-mir")
+      expect("hey_-.+_)(/\\Мир".to_url).to eq("hey-dot-plus-slash-slash-mir")
     end
   end
 
