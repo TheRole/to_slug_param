@@ -2,10 +2,10 @@
 require 'spec_helper'
 
 describe 'StringToSlug' do
-  context 'Check `to_slug_param_base` method' do
-    before(:each) { I18n.locale = :en }
-    after(:all) { I18n.locale = :en }
+  before(:each) { I18n.locale = :en }
+  after(:each) { I18n.locale = :en }
 
+  context 'Check `to_slug_param_base` method' do
     it "is true" do
       I18n.locale = :ru
       str = "Hello    world its me                 Привет Мир 際          "
@@ -76,9 +76,6 @@ describe 'StringToSlug' do
   end
 
   context 'Check `to_url` method' do
-    before(:each) { I18n.locale = :en }
-    after(:all) { I18n.locale = :en }
-
     it 'should be true' do
       I18n.locale = :ru
       str = "Hello    world its me                 Привет Мир 際          "
@@ -111,32 +108,44 @@ describe 'StringToSlug' do
   end
 
   context 'String tests with fallback' do
-    after(:all) { I18n.locale = :en }
-
-    it 'should be true' do
-      I18n.locale = :en
+    it 'is true' do
       str = "Hello world its me Привет Мир 際"
       expect(str.to_smart_slug_param(tolerance: 90)).to eq("hello-world-its-me-priviet-mir-ji")
-      expect(str.to_smart_slug_param(tolerance: 50)).to eq("hello-world-its-me-privet-mir")
     end
 
-    it 'should be true' do
+    it 'is true' do
+      str = "Hello world its me Привет Мир 際"
+      expect(str.to_smart_slug_param(tolerance: 50)).to eq("hello-world-its-me")
+    end
+
+    it 'is true' do
       I18n.locale = :ru
       str = "Hello world its me Привет Мир 際"
       expect(str.to_smart_slug_param(tolerance: 90)).to eq("hello-world-its-me-priviet-mir-ji")
+    end
+
+    it 'is true' do
+      I18n.locale = :ru
+      str = "Hello world its me Привет Мир 際"
       expect(str.to_smart_slug_param(tolerance: 50)).to eq("hello-world-its-me-privet-mir")
     end
   end
 
   context 'String tests' do
-    it 'should be true' do
-      expect("Привет Мир! Hello world!".to_slug_param).to eq("privet-mir-hello-world")
-      expect("Документ.doc".to_slug_param).to eq("dokument-doc")
+    it 'is true' do
+      expect("Привет Мир! Hello world!".to_slug_param(locale: :ru)).to eq("privet-mir-hello-world")
     end
 
-    it 'When wrong translation' do
-      expect("Привет Мир! Hello world!".to_slug_param(locale: :en)).to eq("hello-world")
-      expect("Документ.doc".to_slug_param(locale: :en)).to eq("doc")
+    it 'is true' do
+      expect("Привет Мир! Hello world!".to_slug_param(locale: :en)).to eq("priviet-mir-hello-world")
+    end
+
+    it 'is true' do
+      expect("Документ.doc".to_slug_param(locale: :ru)).to eq("dokumient-dot-doc")
+    end
+
+    it 'is true' do
+      expect("Документ.doc".to_slug_param(locale: :en)).to eq("dokumient-dot-doc")
     end
   end
 
