@@ -8,16 +8,29 @@ module ToSlugParam
 
   SPECIAL_SYMBOLS = %[`'"<>[]{}()-+?!/\\.:;$*^~_]
 
+  REPLACE_SPEC_SYMB_REGEXP = Regexp.new(
+    SPECIAL_SYMBOLS.split('').map do |s|
+      Regexp.escape(s)
+    end.join('|')
+  )
+
   class << self
-    def basic_parameterize(str, sep)
-      reg_exp = Regexp.new SPECIAL_SYMBOLS.split('').map { |s| Regexp.escape(s) }.join('|')
-      str.gsub(reg_exp, sep)
+    def parameterize(str, sep)
+      str = str.to_s.strip.gsub(/[[:space:]]/, sep)
+      str = str.gsub(REPLACE_SPEC_SYMB_REGEXP, sep)
+      remove_sep_duplications(str, sep)
     end
 
-    def parameterize(str, sep)
+    def remove_sep_duplications str, sep
+      str.gsub(/\A#{sep}{1,}/, '')
+         .gsub(/#{sep}{2,}/, sep)
+         .gsub(/#{sep}{1,}\z/, '').to_s
+    end
+
+    def rails_to_param(str, sep)
       Rails::VERSION::MAJOR > 4          ? \
-        str.parameterize(separator: sep) : \
-        str.parameterize(sep)
+        ActiveSupport::Inflector.parameterize(str, separator: sep) : \
+        ActiveSupport::Inflector.parameterize(str, sep)
     end
   end
 end

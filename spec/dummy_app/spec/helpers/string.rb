@@ -6,11 +6,11 @@ describe 'StringToSlug' do
   after(:each) { I18n.locale = :en }
 
   context "New checked API" do
-    context 'Check `basic_parameterize` method' do
+    context 'Check `parameterize` method' do
       it "is true" do
         expect(
-          ToSlugParam.basic_parameterize('Hello \\\ /// `\'"<>[]{}()-+?!\/.:;$*^~ World!', '-')
-        ).to eq("Hello -- --- ------------------------ World-")
+          ToSlugParam.parameterize('Hello \\\ /// `\'"<>[]{}()-+?!\/.:;$*^~ World!', '-')
+        ).to eq("Hello-World")
       end
     end
 
@@ -150,36 +150,64 @@ describe 'StringToSlug' do
       end
 
       it 'is true' do
-        expect("Документ.doc".to_slug_param(locale: :ru)).to eq("dokumient-dot-doc")
+        expect("Документ.doc".to_slug_param(locale: :ru)).to eq("dokument-doc")
       end
 
       it 'is true' do
-        expect("Документ.doc".to_slug_param(locale: :en)).to eq("dokumient-dot-doc")
+        expect("Документ.doc".to_slug_param(locale: :en)).to eq("dokumient-doc")
       end
     end
-  end
 
-  context 'Filename test' do
-    it 'should be true' do
-      expect("/doc/dir/test/document.doc".to_slug_param).to     eq("doc-dir-test-document-doc")
+    context 'Filename test' do
+      it 'is true' do
+        expect("/doc/dir/test/document.doc".to_slug_param).to eq("doc-dir-test-document-doc")
+      end
 
-      expect("/doc/dir/test/document.doc".slugged_filename).to  eq("document.doc")
-      expect("/доки/dir/тест/документ.doc".slugged_filename).to eq("dokument.doc")
-      expect("/доки/dir/тест/документ".slugged_filename).to     eq("dokument")
-      expect("/доки/dir/тест/доку мент".slugged_filename).to    eq("doku-ment")
+      it 'is true' do
+        expect("/doc/dir/test/document.doc".slugged_filename).to  eq("document.doc")
+      end
 
-      expect(String.slugged_filename("/доки/dir/тест/доку мент")).to eq("doku-ment")
-    end
+      it 'is true' do
+        I18n.locale = :ru
+        expect("/доки/dir/тест/документ.doc".slugged_filename).to eq("dokument.doc")
+      end
 
-    it 'When wrong translation' do
-      expect("/doc/dir/test/document.doc".to_slug_param(locale: :ru)).to     eq("doc-dir-test-document-doc")
-      expect("/doc/dir/test/document.doc".slugged_filename(locale: :ru)).to  eq("document.doc")
+      it 'is true' do
+        I18n.locale = :ru
+        expect("/доки/dir/тест/документ".slugged_filename).to eq("dokument")
+      end
 
-      expect("/доки/dir/тест/документ.doc".slugged_filename(locale: :en)).to eq(".doc")
-      expect("/доки/dir/тест/документ".slugged_filename(locale: :en)).to     eq("")
-      expect("/доки/dir/тест/доку мент".slugged_filename(locale: :en)).to    eq("")
+      it 'is true' do
+        expect("/доки/dir/тест/доку мент".slugged_filename).to eq("doku-mient")
+      end
 
-      expect(String.slugged_filename("/доки/dir/тест/доку мент", locale: :en)).to eq("")
+      it 'is true' do
+        expect(String.slugged_filename("/доки/dir/тест/доку мент")).to eq("doku-mient")
+      end
+
+      it 'is true' do
+        expect("/doc/dir/test/document.doc".to_slug_param(locale: :ru)).to eq("doc-dir-test-document-doc")
+      end
+
+      it 'is true' do
+        expect("/doc/dir/test/document.doc".slugged_filename(locale: :ru)).to eq("document.doc")
+      end
+
+      it 'is true' do
+        expect("/доки/dir/тест/документ.doc".slugged_filename(locale: :en)).to eq("dokumient.doc")
+      end
+
+      it 'is true' do
+        expect("/доки/dir/тест/документ".slugged_filename(locale: :en)).to eq("dokumient")
+      end
+
+      it 'is true' do
+        expect("/доки/dir/тест/доку мент".slugged_filename(locale: :en)).to eq("doku-mient")
+      end
+
+      it 'is true' do
+        expect(String.slugged_filename("/доки/dir/тест/доку мент", locale: :en)).to eq("doku-mient")
+      end
     end
   end
 

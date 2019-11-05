@@ -23,28 +23,34 @@ class String
   # Self methods
   # -----------------------------------
   class << self
+    def prepare_the_string(str, opts = {})
+      opts = opts.symbolize_keys
+      sep = opts[:sep] || '-'
+      str = str.to_s
+
+      ToSlugParam::parameterize(str, sep)
+    end
+
     def to_slug_param str, opts = {}
       to_smart_slug_param(str, opts)
     end
 
     def to_slug_param_base str, opts = {}
-      sep = opts.delete(:sep) || '-'
-      str = str.to_s.strip.gsub(/[[:space:]]/, sep)
-      str = str.mb_chars
- 
-      str = I18n::transliterate(str, opts)
-      str = ToSlugParam::basic_parameterize(str, sep)
-      str = ToSlugParam::parameterize(str, sep)
+      opts = opts.symbolize_keys
+      sep = opts[:sep] || '-'
 
-      # remove separators from beginning and the end of the line
-      # replace separators in the middle with the only match
-      str.gsub(/\A#{sep}{1,}/, '')
-         .gsub(/#{sep}{2,}/, sep)
-         .gsub(/#{sep}{1,}\z/, '').to_s
+      str = prepare_the_string(str, opts).mb_chars
+      str = I18n::transliterate(str, opts)
+      str = ToSlugParam::remove_sep_duplications(str, sep)
+
+      ToSlugParam::rails_to_param(str, sep)
     end
 
     def to_smart_slug_param str, opts = {}
-      tolerance = opts.delete(:tolerance) || 75
+      opts = opts.symbolize_keys
+      tolerance = opts[:tolerance] || 75
+      str = prepare_the_string(str, opts)
+
       x = str.to_slug_param_base(opts)
       y = str.to_url
 
@@ -62,13 +68,13 @@ class String
     end
 
     def file_ext file_name, opts = {}
-      File.extname(file_name)[1..-1].to_s.to_slug_param_base opts
+      File.extname(file_name)[1..-1].to_s.to_smart_slug_param opts
     end
 
     def file_name name, opts = {}
       name = File.basename name
       ext  = File.extname  name
-      File.basename(name, ext).to_s.to_slug_param_base opts
+      File.basename(name, ext).to_s.to_smart_slug_param opts
     end
 
     def slugged_filename name, opts = {}
