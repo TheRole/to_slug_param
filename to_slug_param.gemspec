@@ -3,7 +3,7 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 module ToSlugParam
-  VERSION = "1.7"
+  VERSION = "1.8"
 end
 
 Gem::Specification.new do |spec|
