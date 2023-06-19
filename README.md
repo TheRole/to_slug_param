@@ -69,7 +69,7 @@ Params
 
 #### HOW TO TEST
 
-For testing there is a [Dummy App](./spec/dummy_app).
+For testing there is a [Dummy App](./rspec/dummy_app).
 
 You can run specs for this Dymmy App and check if they pass.
 

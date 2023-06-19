@@ -40,7 +40,11 @@ class String
       sep = opts[:sep] || '-'
 
       str = prepare_the_string(str, opts).mb_chars
-      str = I18n::transliterate(str, opts)
+
+      # TODO: here may be a mistake for different versions of Ruby/Rails
+      # I18n::transliterate(str, **opts) || I18n::transliterate(str, opts)
+
+      str = I18n::transliterate(str, **opts)
       str = ToSlugParam::remove_sep_duplications(str, sep)
 
       ToSlugParam::rails_to_param(str, sep)

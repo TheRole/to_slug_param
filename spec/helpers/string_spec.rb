@@ -1,5 +1,5 @@
 # coding: UTF-8
-require 'spec_helper'
+require_relative '../spec_helper'
 
 describe 'StringToSlug' do
   before(:each) { I18n.locale = :en }
@@ -283,7 +283,7 @@ describe 'StringToSlug' do
       end
     end
 
-    context "spec chars" do
+    context "rspec chars" do
       it 'is true' do
         expect(
           "[$&+,:;=?@Hello <>[]{}()-+?!/\\.:;|#\$@&*^%=~_ world!#|'<>.^*()%!-]".to_slug_param
