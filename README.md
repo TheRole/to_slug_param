@@ -69,15 +69,10 @@ Params
 
 #### HOW TO TEST
 
-For testing there is a [Dummy App](./rspec/dummy_app).
-
-You can run specs for this Dymmy App and check if they pass.
-
-- cd **spec/dummy_app**
-- Follow **spec/dummy_app/README.md**
+TODO: https://github.com/TheRole/the_role_dev
 
 ### MIT-LICENSE
 
 Copyright (c) 2013-2023 [Ilya N.Zykin]
 
-[LICENSE.TXT](LICENSE.txt) 
+[MIT BASED LICENSE](LICENSE.txt) 
