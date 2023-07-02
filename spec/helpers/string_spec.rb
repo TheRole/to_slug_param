@@ -3,7 +3,7 @@ require_relative '../spec_helper'
 
 describe 'StringToSlug' do
   before(:all) do
-    puts 'Rails.version = #{Rails.version}'
+    puts "Rails.version = #{Rails.version}"
   end
 
   before(:each) { I18n.locale = :en }
